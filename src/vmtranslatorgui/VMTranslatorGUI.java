@@ -28,6 +28,7 @@ public class VMTranslatorGUI extends Application {
         root.setVgap(10);
         
         //Szene erstellen
+        String s = "";
         Scene scene = new Scene(root, 900, 600);
         Label vm = new Label("VM-Code");
         Label assembler = new Label("Assembler-Code");
