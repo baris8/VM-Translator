@@ -25,7 +25,7 @@ public class Parser {
                 current = current.split("//")[0];
             }
             if(!current.equals("")){
-                current = current.split("\n")[0];
+                current = current.replaceAll("//.*", "").trim();
                 switch(cmType(current)){
                     case "C_PUSH": out += cw.writePushPop("push", arg1(current), arg2(current)); break;
                     case "C_POP": out += cw.writePushPop("pop", arg1(current), arg2(current)); break;
@@ -33,19 +33,18 @@ public class Parser {
                     case "C_LABEL": out += cw.writeLabel(arg1(current)); break;
                     case "C_GOTO": out += cw.writeGoTo(arg1(current)); break;
                     case "C_IFGOTO": out += cw.writeIfGoTo(arg1(current)); break;
+                    case "C_CALL": break;
+                    case "C_RETURN": break;
+                    case "C_FUNCTION": break;
                 }
             }
         }
     }
     public String arg1(String in){
-        String out = in.split(" ")[1];
-        out = out.replace(" ", "");
-        return out;
+        return in.split(" ")[1];
     }
     public int arg2(String in){
-        String out = in.split(" ")[2];
-        out = out.replace(" ", "");
-        return Integer.parseInt(out);
+        return Integer.parseInt(in.split(" ")[2]);
     }
     
     public String cmType(String command){
@@ -53,6 +52,7 @@ public class Parser {
             switch(command.split(" ")[0]){
                 case "push": return "C_PUSH";
                 case "pop": return "C_POP";
+                case "call": return "C_CALL";
             }
         }
         if(command.split(" ").length == 2){

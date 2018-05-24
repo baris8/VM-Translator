@@ -66,20 +66,15 @@ public class VMTranslatorGUI extends Application {
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //FileChooser tfc = new FileChooser();
-                //tfc.getExtensionFilters().add(new ExtensionFilter("ASM File", "*.asm"));
-                //File tf = tfc.showSaveDialog(primaryStage);
-                //if(tf != null){
-                    PrintWriter writer;
-                    try {
-                        String name = f.getName().replace(".vm", "");
-                        writer = new PrintWriter(name + ".asm");
-                        writer.println(p.getOut());
-                        writer.close();
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(VMTranslatorGUI.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                //}
+                PrintWriter writer;
+                try {
+                    String name = f.getName().replace(".vm", "");
+                    writer = new PrintWriter(name + ".asm");
+                    writer.println(p.getOut());
+                    writer.close();
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(VMTranslatorGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
