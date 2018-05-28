@@ -247,4 +247,7 @@ public class CodeWriter {
                     + "D;JNE\n";
         return out;
     }
+    public String writeCall(String fName, int numArgs){
+        return "";
+    }
 } 
