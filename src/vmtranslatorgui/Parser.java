@@ -35,8 +35,8 @@ public class Parser {
                     case "C_GOTO": out += cw.writeGoTo(arg1(current)); break;
                     case "C_IFGOTO": out += cw.writeIfGoTo(arg1(current)); break;
                     case "C_CALL": out += cw.writeCall(arg1(current), arg2(current)); break;
-                    case "C_RETURN": break;
-                    case "C_FUNCTION": break;
+                    case "C_RETURN": out += cw.writeReturn(); break;
+                    case "C_FUNCTION": out += cw.writeFunction(arg1(current), arg2(current)); break;
                 }
             }
         }
