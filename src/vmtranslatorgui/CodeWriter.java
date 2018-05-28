@@ -250,4 +250,10 @@ public class CodeWriter {
     public String writeCall(String fName, int numArgs){
         return "";
     }
+    public String writeFunction(String fName, int numLocals){
+        return "";
+    }
+    public String writeReturn(){
+        return "";
+    }
 } 
