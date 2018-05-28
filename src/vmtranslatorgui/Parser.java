@@ -26,13 +26,32 @@ public class Parser {
             }
             if(!current.equals("")){
                 current = current.replaceAll("//.*", "").trim();
+                System.out.println(current);
                 switch(cmType(current)){
-                    case "C_PUSH": out += cw.writePushPop("push", arg1(current), arg2(current)); break;
-                    case "C_POP": out += cw.writePushPop("pop", arg1(current), arg2(current)); break;
-                    case "C_ARITHMETIC": out += cw.writeArithmetic(current); break;
-                    case "C_LABEL": out += cw.writeLabel(arg1(current)); break;
-                    case "C_GOTO": out += cw.writeGoTo(arg1(current)); break;
-                    case "C_IFGOTO": out += cw.writeIfGoTo(arg1(current)); break;
+                    case "C_PUSH": 
+                        out += cw.writePushPop("push", arg1(current), arg2(current)); 
+                        System.out.println(cw.writePushPop("push", arg1(current), arg2(current)));
+                        break;
+                    case "C_POP": 
+                        out += cw.writePushPop("pop", arg1(current), arg2(current)); 
+                        System.out.println(cw.writePushPop("pop", arg1(current), arg2(current)));
+                        break;
+                    case "C_ARITHMETIC": 
+                        out += cw.writeArithmetic(current); 
+                         System.out.println(cw.writeArithmetic(current));
+                        break;
+                    case "C_LABEL": 
+                        out += cw.writeLabel(arg1(current)); 
+                         System.out.println(cw.writeLabel(arg1(current))); 
+                        break;
+                    case "C_GOTO": 
+                        out += cw.writeGoTo(arg1(current)); 
+                         System.out.println(cw.writeGoTo(arg1(current))); 
+                        break;
+                    case "C_IFGOTO": 
+                        out += cw.writeIfGoTo(arg1(current)); 
+                         System.out.println(cw.writeIfGoTo(arg1(current))); 
+                        break;
                     case "C_CALL": break;
                     case "C_RETURN": break;
                     case "C_FUNCTION": break;

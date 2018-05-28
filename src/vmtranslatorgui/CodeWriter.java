@@ -10,6 +10,7 @@ public class CodeWriter {
     private final String eqGtLt;
     private final String pushC;
     private final String popC;
+    String functionName;
     
     public CodeWriter() throws FileNotFoundException{
         count = 0;
@@ -40,6 +41,7 @@ public class CodeWriter {
                 + "@R13\n"
                 + "A = M\n"
                 + "M = D\n";
+        
     }
     
     public String writeArithmetic(String command){
@@ -61,14 +63,47 @@ public class CodeWriter {
                     + "M = !M\n"
                     + "@SP\n"
                     + "M = M+1\n"; break;
-            case "eq": out = eqGtLt + "@JEQ_TRUE_"+ count +"\nD;JEQ\n@SP\nA = M-1\nM = 0\n@JEQ_FALSE_" + count + "\n0;JMP\n"
-                    + "(JEQ_TRUE_"+count+ ")\n@SP\nA = M-1\nM = -1\n(JEQ_FALSE_" +count+")\n";
+            case "eq": out = eqGtLt 
+                    + "@JEQ_TRUE_"+ count +"\n"
+                    + "D;JEQ\n"
+                    + "@SP\n"
+                    + "A = M-1\n"
+                    + "M = 0\n"
+                    + "@JEQ_FALSE_" + count + "\n"
+                    + "0;JMP\n"
+                    + "(JEQ_TRUE_"+count+ ")\n"
+                    + "@SP\n"
+                    + "A = M-1\n"
+                    + "M = -1\n"
+                    + "(JEQ_FALSE_" +count+")\n";
                     count++; break;
-            case "gt": out = eqGtLt + "@JGT_TRUE_"+ count +"\nD;JGT\n@SP\nA = M-1\nM = 0\n@JGT_FALSE_" + count + "\n0;JMP\n"
-                    + "(JGT_TRUE_"+count+ ")\n@SP\nA = M-1\nM = -1\n(JGT_FALSE_" +count+")\n";
+            case "gt": out = eqGtLt 
+                    + "@JGT_TRUE_"+ count +"\n"
+                    + "D;JGT\n"
+                    + "@SP\n"
+                    + "A = M-1\n"
+                    + "M = 0\n"
+                    + "@JGT_FALSE_" + count + "\n"
+                    + "0;JMP\n"
+                    + "(JGT_TRUE_"+count+ ")\n"
+                    + "@SP\n"
+                    + "A = M-1\n"
+                    + "M = -1\n"
+                    + "(JGT_FALSE_" +count+")\n";
                     count++; break;
-            case "lt": out = eqGtLt + "@JLT_TRUE_"+ count +"\nD;JLT\n@SP\nA = M-1\nM = 0\n@JLT_FALSE_" + count + "\n0;JMP\n"
-                    + "(JLT_TRUE_"+count+ ")\n@SP\nA = M-1\nM = -1\n(JLT_FALSE_" +count+")\n";
+            case "lt": out = eqGtLt 
+                    + "@JLT_TRUE_"+ count +"\n"
+                    + "D;JLT\n"
+                    + "@SP\n"
+                    + "A = M-1\n"
+                    + "M = 0\n"
+                    + "@JLT_FALSE_" + count + "\n"
+                    + "0;JMP\n"
+                    + "(JLT_TRUE_"+count+ ")\n"
+                    + "@SP\n"
+                    + "A = M-1\n"
+                    + "M = -1\n"
+                    + "(JLT_FALSE_" +count+")\n";
                     count++; break;
         }
         return out;
@@ -196,10 +231,10 @@ public class CodeWriter {
         return out;
     }
     public String writeLabel(String label){
-        return "(" + label + ")\n";
+        return "(" + functionName + "$" + label + ")\n";
     }
     public String writeGoTo(String label){
-        String out = "@label\n"
+        String out = "@" + functionName + "$" + label + "\n"
                     + "0;JMP\n";
         return out;
     }
@@ -208,8 +243,8 @@ public class CodeWriter {
                     + "M = M-1\n"
                     + "A = M\n"
                     + "D = M\n"
-                    + "@" + label + "\n"
+                    + "@" + functionName + "$" + label + "\n"
                     + "D;JNE\n";
         return out;
     }
-}
+} 
