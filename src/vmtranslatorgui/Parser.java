@@ -54,6 +54,7 @@ public class Parser {
                 case "push": return "C_PUSH";
                 case "pop": return "C_POP";
                 case "call": return "C_CALL";
+                case "function": return "C_FUNCTION";
             }
         }
         if(command.split(" ").length == 2){
@@ -64,7 +65,11 @@ public class Parser {
             }
         }
         if(command.split(" ").length == 1){
-            return "C_ARITHMETIC";
+            if(command.equals("return")){
+                return "C_RETURN";
+            }else{
+                return "C_ARITHMETIC";
+            }
         }
         return "";
     }

@@ -240,20 +240,73 @@ public class CodeWriter {
     }
     public String writeIfGoTo(String label){
         String out = "@SP\n"
-                    + "M = M-1\n"
-                    + "A = M\n"
-                    + "D = M\n"
-                    + "@" + functionName + "$" + label + "\n"
-                    + "D;JNE\n";
-        return out;
-    }
-    public String writeCall(String fName, int numArgs){
-        return "";
+                + "M = M-1\n"
+                + "A = M\n"
+                + "D = M\n"
+                + "@" + functionName + "$" + label + "\n"
+                + "D;JNE\n";
+    return out;
+}
+public String writeCall(String fName, int numArgs){
+    return "@SP\n"
+        + "D = M\n"
+        + "@R13\n"
+        + "M = D\n" //SP -> 13
+        + "@ReturnAdress" + count
+        + "D = A\n"
+        + "@SP\n"
+        + "A = M\n"
+        + "M = D\n" //@ReturnAdress -> *SP
+        + "@SP\n"
+        + "M = M + 1\n" //SP++
+        + "@LCL\n"
+        + "D = M\n"
+        + "@SP\n"
+        + "A = M\n"
+        + "M = D\n" //LCL --> *SP
+        + "@SP\n"
+        + "M = M + 1\n" //SP++
+        + "@ARG\n"
+        + "D = M\n"
+        + "@SP\n"
+        + "A = M\n"
+        + "M = D\n" //ARG --> *SP
+        + "@SP\n"
+        + "M = M + 1\n" //SP++
+        + "@THIS\n"
+        + "D = M\n"
+        + "@SP\n"
+        + "A = M"
+        + "M = D\n" //THIS --> *SP
+        + "@SP\n"
+        + "M = M + 1\n" //SP++               
+        + "@THAT\n"
+        + "D = M\n"
+        + "@SP\n"
+        + "A = M\n"
+        + "M = D\n" //THAT --> *SP
+        + "@SP\n"
+        + "M = M + 1\n" //SP++
+        + "@R13\n"
+        + "D = M\n"
+        + "@" + numArgs + "\n"
+        + "D = D - A\n"
+        + "@ARG\n"
+        + "M = D\n" //R13-numArgs --> ARG
+        + "@SP\n"
+        + "D = M\n"
+        + "@LCL\n"
+        + "M = D\n"
+        + "@" + fName + "\n"
+        + "0;JMP\n"
+        + "(ReturnAdress" + count + ")\n"; 
     }
     public String writeFunction(String fName, int numLocals){
         return "";
     }
     public String writeReturn(){
+
+                
         return "";
     }
 } 
