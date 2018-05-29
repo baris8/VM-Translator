@@ -351,6 +351,16 @@ public class CodeWriter {
                 + "0;JMP\n";
     }
     public String writeFunction(String fName, int numLocals){
-        return "";
+        String out = "@SP\n" //Get SP
+                + "A = M\n";
+        int i = 0;
+        while(i < numLocals){ //repeat numLocals times: push 0
+            out += "M = 0\n"
+                + "A = A + 1\n";
+        }
+        out += "D = A\n" //Set SP right
+            + "@SP\n"
+            + "M = D\n"; 
+        return out;
     }
 } 
