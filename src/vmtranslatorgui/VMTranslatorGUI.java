@@ -33,6 +33,7 @@ public class VMTranslatorGUI extends Application {
         Label vm = new Label("VM-Code");
         Label assembler = new Label("Assembler-Code");
         Button saveButton = new Button("Save as ASM File");
+        Button openButton = new Button("Open another ASM File");
         
         TextArea vmText = new TextArea();
         TextArea asmText = new TextArea();
@@ -43,6 +44,7 @@ public class VMTranslatorGUI extends Application {
         root.add(vmText, 0, 1);
         root.add(asmText, 1, 1);
         root.add(saveButton, 1, 2);
+        root.add(openButton, 0, 2);
         
         //Datei angeben
         FileChooser fc = new FileChooser();
@@ -79,7 +81,7 @@ public class VMTranslatorGUI extends Application {
             }
         });
         
-        primaryStage.setTitle("Project 6 - by Baris Üctas");
+        primaryStage.setTitle("Project 8 - by Baris Üctas");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

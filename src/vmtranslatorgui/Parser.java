@@ -14,11 +14,11 @@ public class Parser {
         out = "";
         cw = new CodeWriter();
         file = f;
-        parseVMCode();
+        //parseVMCode(file);
     }
     
-    public void parseVMCode() throws FileNotFoundException{
-        Scanner scanner = new Scanner(file);
+    public void parseVMCode(File asmFile) throws FileNotFoundException{
+        Scanner scanner = new Scanner(asmFile);
         while(scanner.hasNext()){
             current = scanner.nextLine();
             if(current.contains("//")){
@@ -74,7 +74,11 @@ public class Parser {
         return "";
     }
     
+    //Getter & Setter
     public String getOut(){
         return out;
+    }
+    public void setFile(File f){
+        file = f;
     }
 }

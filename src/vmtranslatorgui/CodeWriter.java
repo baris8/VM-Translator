@@ -1,7 +1,5 @@
 package vmtranslatorgui;
 
-import java.io.FileNotFoundException;
-
 public class CodeWriter {
     private int count;
     
@@ -10,9 +8,9 @@ public class CodeWriter {
     private final String eqGtLt;
     private final String pushC;
     private final String popC;
-    String functionName;
+    private String functionName;
     
-    public CodeWriter() throws FileNotFoundException{
+    public CodeWriter(){
         count = 0;
         addSubAndOr = "@SP\n"
                     + "M = M-1\n"
@@ -351,7 +349,8 @@ public class CodeWriter {
                 + "0;JMP\n";
     }
     public String writeFunction(String fName, int numLocals){
-        String out = "@SP\n" //Get SP
+        String out = "(" + fName + ")\n"
+                + "@SP\n" //Get SP
                 + "A = M\n";
         int i = 0;
         while(i < numLocals){ //repeat numLocals times: push 0
