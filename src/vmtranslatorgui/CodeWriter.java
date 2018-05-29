@@ -248,7 +248,7 @@ public class CodeWriter {
     return out;
 }
     public String writeCall(String fName, int numArgs){
-    return "@SP\n"
+    String out = "@SP\n"
         + "D = M\n"
         + "@R13\n"
         + "M = D\n" //SP -> 13
@@ -300,6 +300,8 @@ public class CodeWriter {
         + "@" + fName + "\n"
         + "0;JMP\n"
         + "(ReturnAdress" + count + ")\n"; 
+        count++;
+        return out;
     }
     public String writeReturn(){
         return "@LCL\n" //frame(r13) = lcl
@@ -351,5 +353,4 @@ public class CodeWriter {
     public String writeFunction(String fName, int numLocals){
         return "";
     }
-    
 } 
