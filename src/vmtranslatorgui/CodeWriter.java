@@ -247,7 +247,7 @@ public class CodeWriter {
                 + "D;JNE\n";
     return out;
 }
-public String writeCall(String fName, int numArgs){
+    public String writeCall(String fName, int numArgs){
     return "@SP\n"
         + "D = M\n"
         + "@R13\n"
@@ -301,12 +301,55 @@ public String writeCall(String fName, int numArgs){
         + "0;JMP\n"
         + "(ReturnAdress" + count + ")\n"; 
     }
+    public String writeReturn(){
+        return "@LCL\n" //frame(r13) = lcl
+                + "D = M\n"
+                + "@R13\n"
+                + "M = D\n"
+                + "@R13\n" //retAddr = *(frame - 5)
+                + "D = M\n"
+                + "@5\n"
+                + "A = D - A\n"
+                + "D = M\n"
+                + "@R14\n"
+                + "M = D\n"
+                + "@ARG\n" // *ARG = pop 
+                + "A = M\n"
+                + "M = D\n"
+                + "@ARG\n" //SP = ARG+1
+                + "D = A + 1\n"
+                + "@SP\n"
+                + "M = D\n"
+                + "@R13\n" //THAT = *(frame - 1)
+                + "M = M - 1\n"
+                + "A = M\n"
+                + "D = M\n"
+                + "@THAT\n"
+                + "M = D\n" 
+                + "@R13\n" //THIS = *(frame - 1)
+                + "M = M - 1\n"
+                + "A = M\n"
+                + "D = M\n"
+                + "@THIS\n"
+                + "M = D\n"  
+                + "@R13\n" //ARG = *(frame - 1)
+                + "M = M - 1\n"
+                + "A = M\n"
+                + "D = M\n"
+                + "@ARG\n"
+                + "M = D\n" 
+                + "@R13\n" //LCL = *(frame - 1)
+                + "M = M - 1\n"
+                + "A = M\n"
+                + "D = M\n"
+                + "@LCL\n"
+                + "M = D\n" 
+                + "@R14\n" //GOTO retAddr
+                + "A = M\n"
+                + "0;JMP\n";
+    }
     public String writeFunction(String fName, int numLocals){
         return "";
     }
-    public String writeReturn(){
-
-                
-        return "";
-    }
+    
 } 
