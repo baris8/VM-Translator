@@ -170,7 +170,11 @@ public class CodeWriter {
                     break;
                 case "static": out += "@" + fileName + "." + index + "\n"
                         + "D = M\n"
-                        + pushC;
+                        + "@SP\n"
+                        + "A = M\n"
+                        + "M = D\n"
+                        + "@SP\n"
+                        + "M = M + 1\n";
                     break;
             }
         }
@@ -218,9 +222,12 @@ public class CodeWriter {
                             + popC;
                     }
                     break;
-                case "static": out += "@" + fileName + "." + index + "\n"
-                                + "D = M\n"
-                                + popC;
+                case "static": out += "@SP\n"
+                        + "M = M - 1\n"
+                        + "A = M\n"
+                        + "D = M\n"
+                        + "@" + fileName + "." + index + "\n"
+                        + "M = D\n";
             }
         }
         return out;
@@ -303,13 +310,14 @@ public class CodeWriter {
                 + "D = M\n"
                 + "@R13\n"
                 + "M = D\n"
-                + "@R13\n" //retAddr = *(frame - 5)
-                + "D = M\n"
-                + "@5\n"
+                + "@5\n" //retAddr = *(frame - 5)
                 + "A = D - A\n"
-                + "D = A\n"
+                + "D = M\n"
                 + "@R14\n"
                 + "M = D\n"
+                + "@SP\n"
+                + "AM = M - 1\n"
+                + "D = M\n"
                 + "@ARG\n" // *ARG = pop 
                 + "A = M\n"
                 + "M = D\n"
@@ -359,5 +367,10 @@ public class CodeWriter {
             + "@SP\n"
             + "M = D\n"; 
         return out;
+    }
+    
+    public void setFile(File f){
+        file = f;
+        fileName = f.getName();
     }
 } 

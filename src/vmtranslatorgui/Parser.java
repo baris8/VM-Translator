@@ -13,61 +13,61 @@ public class Parser {
     public Parser(File f) throws FileNotFoundException{
         file = f;
         cw = new CodeWriter(file);
-        /*out = "@256\n"
+        out = "@256\n"
                 + "D = A\n"
                 + "@SP\n"
                 + "M = D\n"
-                + cw.writeCall("Sys.init", 0);*/
+                + cw.writeCall("Sys.init", 0);
+    }
+    public Parser(File f, boolean t) throws FileNotFoundException{
+        file = f;
+        cw = new CodeWriter(file);
         out = "";
-        //parseVMCode(file);
     }
     
     public void parseVMCode(File asmFile) throws FileNotFoundException{
         Scanner scanner = new Scanner(asmFile);
         while(scanner.hasNext()){
             current = scanner.nextLine();
-            if(current.contains("//")){
-                current = current.split("//")[0];
-            }
             if(!current.equals("")){
                 current = current.replaceAll("//.*", "").trim();
                 System.out.println(current);
                 switch(cmType(current)){
                     case "C_PUSH":  
+                        out += "//" + current + "\n";
                         out += cw.writePushPop("push", arg1(current), arg2(current)); 
-                        System.out.println(cw.writePushPop("push", arg1(current), arg2(current)));
                         break;
                     case "C_POP": 
+                        out += "//" + current + "\n";
                         out += cw.writePushPop("pop", arg1(current), arg2(current)); 
-                        System.out.println(cw.writePushPop("pop", arg1(current), arg2(current))); 
                         break;
                     case "C_ARITHMETIC": 
+                        out += "//" + current + "\n";
                         out += cw.writeArithmetic(current); 
-                        System.out.println(cw.writeArithmetic(current)); 
                         break;
                     case "C_LABEL": 
+                        out += "//" + current + "\n";
                         out += cw.writeLabel(arg1(current)); 
-                        System.out.println(cw.writeLabel(arg1(current)));
                         break;
                     case "C_GOTO": 
+                        out += "//" + current + "\n";
                         out += cw.writeGoTo(arg1(current)); 
-                        System.out.println(cw.writeGoTo(arg1(current)));
                         break;
                     case "C_IFGOTO": 
+                        out += "//" + current + "\n";
                         out += cw.writeIfGoTo(arg1(current)); 
-                        System.out.println(cw.writeIfGoTo(arg1(current))); 
                         break;
                     case "C_CALL": 
+                        out += "//" + current + "\n";
                         out += cw.writeCall(arg1(current), arg2(current)); 
-                        System.out.println(cw.writeCall(arg1(current), arg2(current))); 
                         break;
                     case "C_RETURN": 
+                        out += "//" + current + "\n";
                         out += cw.writeReturn(); 
-                        System.out.println(cw.writeReturn());
                         break;
                     case "C_FUNCTION": 
+                        out += "//" + current + "\n";
                         out += cw.writeFunction(arg1(current), arg2(current)); 
-                        System.out.println(cw.writeFunction(arg1(current), arg2(current)));
                         break;
                 }
             }
@@ -112,5 +112,6 @@ public class Parser {
     }
     public void setFile(File f){
         file = f;
+        cw.setFile(f);
     }
 }

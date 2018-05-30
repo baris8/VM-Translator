@@ -3,6 +3,7 @@ package vmtranslatorgui;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,20 +51,34 @@ public class VMTranslatorGUI extends Application {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open VM File");
         fc.getExtensionFilters().addAll(new ExtensionFilter("VM Files", "*.vm"));
-        File f = fc.showOpenDialog(primaryStage);
+        List<File> f = fc.showOpenMultipleDialog(primaryStage);
         
-        //Parsen
-        Parser p = new Parser(f);
-        p.parseVMCode(f);
-        
+        System.out.println(f.size());
+
         //vmFile anzeigen 
-        Scanner scanner = new Scanner(f);
         String ao = "";
-        while(scanner.hasNext()){
-            String line = scanner.nextLine();
-            ao += line + "\n";
+        for(File file: f){
+            Scanner scanner = new Scanner(file);
+            while(scanner.hasNext()){
+                String line = scanner.nextLine();
+                ao += line + "\n";
+            }
         }
         vmText.setText(ao);
+        
+        //Parsen
+        Parser p;
+        if(f.size() == 1 || f.get(0).getName().equals("Sys.vm")){
+            p = new Parser(f.get(0), true);
+        }else{
+            p = new Parser(f.get(0));
+        }
+
+        for(File file: f){
+            p.setFile(file);
+            p.parseVMCode(file);
+        }
+        
         //AssemblerCode anzeigen
         asmText.setText(p.getOut());
         //Save Button Action
@@ -72,7 +87,7 @@ public class VMTranslatorGUI extends Application {
             public void handle(ActionEvent event) {
                 PrintWriter writer;
                 try {
-                    String name = f.getName().replace(".vm", "");
+                    String name = f.get(0).getName().replace(".vm", "");
                     writer = new PrintWriter(name + ".asm");
                     writer.println(p.getOut());
                     writer.close();
