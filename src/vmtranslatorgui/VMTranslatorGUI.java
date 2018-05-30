@@ -52,8 +52,6 @@ public class VMTranslatorGUI extends Application {
         fc.setTitle("Open VM File");
         fc.getExtensionFilters().addAll(new ExtensionFilter("VM Files", "*.vm"));
         List<File> f = fc.showOpenMultipleDialog(primaryStage);
-        
-        System.out.println(f.size());
 
         //vmFile anzeigen 
         String ao = "";

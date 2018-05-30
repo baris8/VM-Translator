@@ -14,10 +14,10 @@ public class Parser {
         file = f;
         cw = new CodeWriter(file);
         out = "@256\n"
-                + "D = A\n"
-                + "@SP\n"
-                + "M = D\n"
-                + cw.writeCall("Sys.init", 0);
+            + "D = A\n"
+            + "@SP\n"
+            + "M = D\n"
+            + cw.writeCall("Sys.init", 0);
     }
     public Parser(File f, boolean t) throws FileNotFoundException{
         file = f;
@@ -31,7 +31,6 @@ public class Parser {
             current = scanner.nextLine();
             if(!current.equals("")){
                 current = current.replaceAll("//.*", "").trim();
-                System.out.println(current);
                 switch(cmType(current)){
                     case "C_PUSH":  
                         out += "//" + current + "\n";
