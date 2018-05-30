@@ -54,6 +54,7 @@ public class VMTranslatorGUI extends Application {
         
         //Parsen
         Parser p = new Parser(f);
+        p.parseVMCode(f);
         
         //vmFile anzeigen 
         Scanner scanner = new Scanner(f);

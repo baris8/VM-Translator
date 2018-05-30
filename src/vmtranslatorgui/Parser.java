@@ -11,9 +11,14 @@ public class Parser {
     private String out;
     
     public Parser(File f) throws FileNotFoundException{
-        out = "";
-        cw = new CodeWriter();
         file = f;
+        cw = new CodeWriter(file);
+        /*out = "@256\n"
+                + "D = A\n"
+                + "@SP\n"
+                + "M = D\n"
+                + cw.writeCall("Sys.init", 0);*/
+        out = "";
         //parseVMCode(file);
     }
     
@@ -28,15 +33,42 @@ public class Parser {
                 current = current.replaceAll("//.*", "").trim();
                 System.out.println(current);
                 switch(cmType(current)){
-                    case "C_PUSH":  out += cw.writePushPop("push", arg1(current), arg2(current)); break;
-                    case "C_POP": out += cw.writePushPop("pop", arg1(current), arg2(current)); break;
-                    case "C_ARITHMETIC": out += cw.writeArithmetic(current); break;
-                    case "C_LABEL": out += cw.writeLabel(arg1(current)); break;
-                    case "C_GOTO": out += cw.writeGoTo(arg1(current)); break;
-                    case "C_IFGOTO": out += cw.writeIfGoTo(arg1(current)); break;
-                    case "C_CALL": out += cw.writeCall(arg1(current), arg2(current)); break;
-                    case "C_RETURN": out += cw.writeReturn(); break;
-                    case "C_FUNCTION": out += cw.writeFunction(arg1(current), arg2(current)); break;
+                    case "C_PUSH":  
+                        out += cw.writePushPop("push", arg1(current), arg2(current)); 
+                        System.out.println(cw.writePushPop("push", arg1(current), arg2(current)));
+                        break;
+                    case "C_POP": 
+                        out += cw.writePushPop("pop", arg1(current), arg2(current)); 
+                        System.out.println(cw.writePushPop("pop", arg1(current), arg2(current))); 
+                        break;
+                    case "C_ARITHMETIC": 
+                        out += cw.writeArithmetic(current); 
+                        System.out.println(cw.writeArithmetic(current)); 
+                        break;
+                    case "C_LABEL": 
+                        out += cw.writeLabel(arg1(current)); 
+                        System.out.println(cw.writeLabel(arg1(current)));
+                        break;
+                    case "C_GOTO": 
+                        out += cw.writeGoTo(arg1(current)); 
+                        System.out.println(cw.writeGoTo(arg1(current)));
+                        break;
+                    case "C_IFGOTO": 
+                        out += cw.writeIfGoTo(arg1(current)); 
+                        System.out.println(cw.writeIfGoTo(arg1(current))); 
+                        break;
+                    case "C_CALL": 
+                        out += cw.writeCall(arg1(current), arg2(current)); 
+                        System.out.println(cw.writeCall(arg1(current), arg2(current))); 
+                        break;
+                    case "C_RETURN": 
+                        out += cw.writeReturn(); 
+                        System.out.println(cw.writeReturn());
+                        break;
+                    case "C_FUNCTION": 
+                        out += cw.writeFunction(arg1(current), arg2(current)); 
+                        System.out.println(cw.writeFunction(arg1(current), arg2(current)));
+                        break;
                 }
             }
         }

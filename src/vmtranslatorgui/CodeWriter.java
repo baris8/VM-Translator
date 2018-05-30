@@ -1,7 +1,10 @@
 package vmtranslatorgui;
 
+import java.io.File;
+
 public class CodeWriter {
     private int count;
+    private File file;
     
     //HilfsStrings für Übersicht
     private final String addSubAndOr;
@@ -9,8 +12,11 @@ public class CodeWriter {
     private final String pushC;
     private final String popC;
     private String functionName;
+    private String fileName;
     
-    public CodeWriter(){
+    public CodeWriter(File f){
+        file = f;
+        fileName = file.getName();
         count = 0;
         addSubAndOr = "@SP\n"
                     + "M = M-1\n"
@@ -162,16 +168,9 @@ public class CodeWriter {
                             + pushC;
                     }
                     break;
-                case "static": out += "@16\n" 
-                                    + "D = A\n"
-                                    + "@" + index + "\n" 
-                                    + "A = D+A\n" 
-                                    + "D = M\n"
-                                    + "@SP\n"
-                                    + "A = M\n"
-                                    + "M = D\n"
-                                    + "@SP\n"
-                                    + "M = M+1\n";
+                case "static": out += "@" + fileName + "." + index + "\n"
+                        + "D = M\n"
+                        + pushC;
                     break;
             }
         }
@@ -219,11 +218,9 @@ public class CodeWriter {
                             + popC;
                     }
                     break;
-                case "static": out += "@16\n"
-                                    + "D = A\n"
-                                    + "@" + index + "\n"
-                                    + "D = D+A\n"
-                                    + popC;
+                case "static": out += "@" + fileName + "." + index + "\n"
+                                + "D = M\n"
+                                + popC;
             }
         }
         return out;
@@ -250,7 +247,7 @@ public class CodeWriter {
         + "D = M\n"
         + "@R13\n"
         + "M = D\n" //SP -> 13
-        + "@ReturnAdress" + count
+        + "@ReturnAdress" + count  + "\n"
         + "D = A\n"
         + "@SP\n"
         + "A = M\n"
@@ -274,7 +271,7 @@ public class CodeWriter {
         + "@THIS\n"
         + "D = M\n"
         + "@SP\n"
-        + "A = M"
+        + "A = M\n"
         + "M = D\n" //THIS --> *SP
         + "@SP\n"
         + "M = M + 1\n" //SP++               
@@ -310,14 +307,14 @@ public class CodeWriter {
                 + "D = M\n"
                 + "@5\n"
                 + "A = D - A\n"
-                + "D = M\n"
+                + "D = A\n"
                 + "@R14\n"
                 + "M = D\n"
                 + "@ARG\n" // *ARG = pop 
                 + "A = M\n"
                 + "M = D\n"
                 + "@ARG\n" //SP = ARG+1
-                + "D = A + 1\n"
+                + "D = M + 1\n"
                 + "@SP\n"
                 + "M = D\n"
                 + "@R13\n" //THAT = *(frame - 1)
@@ -356,6 +353,7 @@ public class CodeWriter {
         while(i < numLocals){ //repeat numLocals times: push 0
             out += "M = 0\n"
                 + "A = A + 1\n";
+            i++;
         }
         out += "D = A\n" //Set SP right
             + "@SP\n"
