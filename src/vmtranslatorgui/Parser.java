@@ -33,39 +33,30 @@ public class Parser {
                 current = current.replaceAll("//.*", "").trim();
                 switch(cmType(current)){
                     case "C_PUSH":  
-                        out += "//" + current + "\n";
                         out += cw.writePushPop("push", arg1(current), arg2(current)); 
                         break;
                     case "C_POP": 
-                        out += "//" + current + "\n";
                         out += cw.writePushPop("pop", arg1(current), arg2(current)); 
                         break;
                     case "C_ARITHMETIC": 
-                        out += "//" + current + "\n";
                         out += cw.writeArithmetic(current); 
                         break;
                     case "C_LABEL": 
-                        out += "//" + current + "\n";
                         out += cw.writeLabel(arg1(current)); 
                         break;
                     case "C_GOTO": 
-                        out += "//" + current + "\n";
                         out += cw.writeGoTo(arg1(current)); 
                         break;
                     case "C_IFGOTO": 
-                        out += "//" + current + "\n";
                         out += cw.writeIfGoTo(arg1(current)); 
                         break;
                     case "C_CALL": 
-                        out += "//" + current + "\n";
                         out += cw.writeCall(arg1(current), arg2(current)); 
                         break;
                     case "C_RETURN": 
-                        out += "//" + current + "\n";
                         out += cw.writeReturn(); 
                         break;
                     case "C_FUNCTION": 
-                        out += "//" + current + "\n";
                         out += cw.writeFunction(arg1(current), arg2(current)); 
                         break;
                 }
